@@ -1,6 +1,6 @@
-import CottyConnection as cc
-import CottyPerceptron as cp
-import CottyVisualizer as cv
+import Connection as cc
+import Perceptron as cp
+import Visualizer as cv
 
 class Net(object):
     def connect_layers(self, in_layer, out_layer):
@@ -29,14 +29,33 @@ class Net(object):
         print "Created Cotty-net"
         
     def run(self, input):
-        for i in range(len(input)):
-            self.input[i].value = input[i]
 
-        for h in self.hidden:
-            h.process()
+        cycles = 0
+        cycles_stable = 0
+        cycles_min = len(self.hidden)
+        cycles_max = len(self.hidden) * 100 # or something?        
 
         result = []
-        for o in self.output:
-            result.append(o.process())
+        while cycles_stable < cycles_min:
+            last_cycle_result = result
+            result = []
+            for i in range(len(input)):
+                self.input[i].value = input[i]
+
+            for h in self.hidden:
+                h.process()
+            
+            for o in self.output:
+                result.append(o.process())
+
+            if result == last_cycle_result:
+                cycles_stable += 1
+            else:
+                cycles_stable = 0
+
+            cycles += 1
+            if cycles >= cycles_max:
+                print "Cotty is not sure.."
+                return
 
         return result        
