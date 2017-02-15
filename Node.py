@@ -1,4 +1,4 @@
-class Perceptron(object):
+class Node(object):
     def __init__(self):
         self.activation_threshold = 1.0
         self.value = 0.0

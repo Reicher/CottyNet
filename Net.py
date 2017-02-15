@@ -1,25 +1,25 @@
-import Connection as cc
-import Perceptron as cp
+import Edge as ce
+import Node as cn
 import Visualizer as cv
 
 class Net(object):
     def connect_layers(self, in_layer, out_layer):
         for i in in_layer:
             for o in out_layer:
-                connection = cc.Connection(i, o)
-                i.set_output(connection)
-                o.set_input(connection)
+                edge = ce.Edge(i, o)
+                i.set_output(edge)
+                o.set_input(edge)
 
     def __init__(self, inputs, hidden, outputs):
-        self.input  = [cp.Perceptron() for i in range(inputs)]
-        self.hidden = [cp.Perceptron() for i in range(hidden)]
-        self.output = [cp.Perceptron() for i in range(outputs)]
+        self.input  = [cn.Node() for i in range(inputs)]
+        self.hidden = [cn.Node() for i in range(hidden)]
+        self.output = [cn.Node() for i in range(outputs)]
         
-        bias = cp.Perceptron()
+        bias = cn.Node()
         bias.value = 1.0
         self.input.append(bias)
                 
-        print "Created perceptrons"
+        print "Created nodes"
 
         self.connect_layers(self.input, self.hidden);
         self.connect_layers(self.hidden, self.hidden);

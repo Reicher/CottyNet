@@ -1,7 +1,7 @@
 import random
 
 ''' Connection between nodes with a weight'''
-class Connection(object):
+class Edge(object):
     def __init__(self, node_1, node_2):
         self.node_1 = node_1
         self.node_2 = node_2
