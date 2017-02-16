@@ -1,22 +1,25 @@
+import Edge
+
 class Node(object):
-    def __init__(self):
-        self.activation_threshold = 1.0
+    def __init__(self, id):
+        self.id = id
         self.value = 0.0
         self.input = []
         self.output = []
-        
-    def set_input(self, in_connection):
-        self.input.append(in_connection)
 
-    def set_output(self, out_connection):
-        self.output.append(out_connection)
-        
-    def process(self):
-        self.excitement = 0
+    def add_input(self, in_edge):
+        self.input.append(in_edge)
+
+    def add_output(self, out_edge):
+        self.output.append(out_edge)
+
+    def sum_inputs(self):
+        self.input_sum = 0.0
         for i in self.input:
-            self.excitement += i.get_value_for(self)
-        
-        if self.excitement >= self.activation_threshold:
+            self.input_sum += i.get()
+
+    def update_value(self):
+        if self.input_sum >= 1.0:
             self.value = 1.0
         else:
             self.value = 0.0
