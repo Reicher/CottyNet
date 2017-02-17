@@ -10,6 +10,8 @@ class Net(object):
         for i in range(len(input)):
             self.input[i].value = input[i]
 
+        cv.print_info(self)
+
         # Set values in net
         for n in self.nodes:
             n.sum_inputs()

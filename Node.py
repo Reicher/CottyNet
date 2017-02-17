@@ -1,9 +1,10 @@
 import Edge
+import random
 
 class Node(object):
     def __init__(self, id):
         self.id = id
-        self.value = 0.0
+        self.value = random.uniform(0, 1)
         self.input = []
         self.output = []
 
