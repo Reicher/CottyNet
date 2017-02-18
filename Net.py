@@ -8,8 +8,6 @@ class Net(object):
         for i in range(len(input)):
             self.input[i].value = input[i]
 
-        #cv.print_info(self)
-
         # Update whole net
         for n in self.nodes:
             n.collect()
@@ -20,16 +18,21 @@ class Net(object):
 
         return {'result': [out.get() for out in self.output], 'cycles': 1}
 
+    def run_cycles(self, input, cycles):
+        return [self.run_cycle(input) for i in range(cycles)]
+
     def run_until_stabile(self, input):
         last_output = {'result': [], 'cycles': 0}
         cycles = 1
+        max_cycles = 5000
         output = self.run_cycle(input)
 
         while output['result'] != last_output['result']:
+            if cycles >= max_cycles:
+                return {'result': 0.0, 'cycles': cycles}
+
             cycles += 1
             last_output = output
             output = self.run_cycle(input)
-            print output['result']
-
 
         return  {'result': output['result'], 'cycles': cycles}

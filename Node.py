@@ -8,11 +8,12 @@ import random
 # 3. Distribute - Set node value to all output-connections
 
 class Node(object):
-    def __init__(self, id):
+    def __init__(self, id, bias = False):
         self.id = id
         self.value = random.uniform(0, 1)
         self.input = []
         self.output = []
+        self.bias = bias
 
     def add_input(self, in_edge):
         self.input.append(in_edge)
@@ -28,7 +29,10 @@ class Node(object):
 
     ''' Run transfer function on weighted sum'''
     def process(self):
-        self.value = Transfer_functions.sigmoid(self.weighted_sum)
+        if not self.bias:
+            self.value = Transfer_functions.sigmoid(self.weighted_sum)
+        else:
+            self.value = 1.0
 
     ''' Update all output edges with your new value '''
     def distribute(self):
