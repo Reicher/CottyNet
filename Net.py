@@ -29,7 +29,7 @@ class Net(object):
 
         while output['result'] != last_output['result']:
             if cycles >= max_cycles:
-                return {'result': 0.0, 'cycles': cycles}
+                return {'result': [0.0], 'cycles': cycles}
 
             cycles += 1
             last_output = output

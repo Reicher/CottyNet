@@ -15,6 +15,9 @@ class Node(object):
         self.output = []
         self.bias = bias
 
+        self.weighted_sum = 0.0
+        self.error = 0.0
+
     def add_input(self, in_edge):
         self.input.append(in_edge)
 
@@ -38,3 +41,14 @@ class Node(object):
     def distribute(self):
         for o in self.output:
             o.set(self.value)
+
+    def propegate_error(self):
+        for o in self.output:
+            self.error += o.d_error
+
+    def update_weights(self):
+        transfer_error = Transfer_functions.sigmoid(self.error)
+        learning = 0.05
+        update = learning * transfer_error * (1 -  transfer_error)
+        for i in self.input:
+            i.weight += update
