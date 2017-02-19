@@ -1,17 +1,28 @@
-def train_cycle(net, input, target):
-    output = net.run_until_stabile(input)
-    error = [abs(output['result'][i] - target[i]) for i in range(len(target))]
+def train_cycle(net, inputs, targets):
+    for example in range(len(inputs)):
+        output = net.run_until_stabile(inputs[example])
+        error = []
 
-    [net.output[o].set_error(error[o]) for o in range(len(net.output))]
+        # Get errors for each example output
+        for t in range(len(targets[example])):
+            error.append(output['result'][t] - targets[example][t])
 
-    # propegate the error as if the all nodes where in serial.
-    for i in range(len(net.nodes)):
-        for n in net.nodes:
-            n.propegate_error()
+        # Feed each error to connected edges
+        for o in range(len(net.output)):
+            net.output[o].set_error(error[o])
 
-    for n in net.nodes:
-        n.update_weights()
+        # Propegate the error around the net
+        # for as if the net was serial connected
+        for i in range(len(net.nodes)):
+            for n in net.nodes:
+                n.propegate_error()
 
-def train(net, input, output, cycles):
-    for i in range(cycles):
-        train_cycle(net, input, output)
+    # After all examples are finished, update weights
+    for i in net.nodes:
+        i.update_weights()
+
+    # Clear your mind to learn more, maaaan!
+    net.clear_mind()
+
+def train(net, inputs, targets):
+    train_cycle(net, inputs, targets)

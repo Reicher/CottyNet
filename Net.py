@@ -3,6 +3,10 @@ import Node as cn
 import Visualizer as cv
 
 class Net(object):
+    def clear_mind(self):
+        for n in self.nodes:
+            n.clear()
+
     def run_cycle(self, input):
         # Set static input values
         for i in range(len(input)):

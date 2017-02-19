@@ -18,6 +18,17 @@ class Node(object):
         self.weighted_sum = 0.0
         self.error = 0.0
 
+    def clear(self):
+        self.value = random.uniform(0, 1)
+        self.error = 0.0
+        self.weighted_sum = 0.0
+
+        for i in self.input:
+            i.clear()
+
+        for o in self.output:
+            o.clear()
+
     def add_input(self, in_edge):
         self.input.append(in_edge)
 
@@ -44,11 +55,14 @@ class Node(object):
 
     def propegate_error(self):
         for o in self.output:
-            self.error += o.d_error
+            self.error += o.get_error()
+
+        for i in self.input:
+            i.set_error(self.error)
 
     def update_weights(self):
         transfer_error = Transfer_functions.sigmoid(self.error)
-        learning = 0.05
-        update = learning * transfer_error * (1 -  transfer_error)
+        learning_rate = 0.1
+        der_error = transfer_error * (1 -  transfer_error)
         for i in self.input:
-            i.weight += update
+            i.weight += learning_rate * der_error

@@ -6,5 +6,5 @@ def step( weighted_sum, threshold ):
 def linear_combination( weighted_sum, bias ):
     return weighted_sum + bias
 
-def sigmoid( weighted_sum ):
-    return weighted_sum / math.sqrt(1 + weighted_sum * weighted_sum)
+def sigmoid( x ):
+    return 1 / (1 + math.exp(-x))
